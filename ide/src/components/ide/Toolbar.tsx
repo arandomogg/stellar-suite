@@ -38,13 +38,13 @@ export function Toolbar({
           </span>
           <BuildButton
             onClick={onCompile}
-            isBuilding={isCompiling}
-            state={isCompiling ? "building" : buildState}
-          />
-          <Button
-            type="button"
-            variant="secondary"
-            size="sm"
+            disabled={isCompiling}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 transition-colors">
+            
+            <Play className="h-3.5 w-3.5" />
+            {isCompiling ? "Building..." : "Build"}
+          </button>
+          <button
             onClick={onDeploy}
             className="gap-1.5 text-xs"
           >
@@ -128,17 +128,21 @@ export function Toolbar({
         </div>
       </div>
 
-      {mobileMenuOpen && (
-        <div className="flex gap-1 border-b border-border px-2 pb-2 md:hidden">
-          <Button
-            type="button"
-            onClick={() => {
-              onDeploy();
-              setMobileMenuOpen(false);
-            }}
-            variant="secondary"
-            className="h-9 flex-1 gap-1 px-2 text-[11px]"
-          >
+      {/* Mobile dropdown */}
+      {mobileMenuOpen &&
+      <div className="md:hidden flex gap-1 px-2 pb-2 border-b border-border">
+          <button
+          onClick={() => {onCompile();setMobileMenuOpen(false);}}
+          disabled={isCompiling}
+          className="flex-1 flex items-center justify-center gap-1 px-2 py-2 text-[11px] font-medium rounded bg-primary text-primary-foreground disabled:opacity-50">
+          
+            <Play className="h-3 w-3" />
+            {isCompiling ? "..." : "Build"}
+          </button>
+          <button
+          onClick={() => {onDeploy();setMobileMenuOpen(false);}}
+          className="flex-1 flex items-center justify-center gap-1 px-2 py-2 text-[11px] font-medium rounded bg-secondary text-secondary-foreground">
+          
             <Upload className="h-3 w-3" />
             Deploy
           </Button>
@@ -155,7 +159,7 @@ export function Toolbar({
             Test
           </Button>
         </div>
-      )}
-    </div>
-  );
+      }
+    </div>);
+
 }
